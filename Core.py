@@ -2,6 +2,7 @@ import tkinter as tk
 import tkinter.font as tkFont
 from Client import *
 import threading
+import Server
 
 def open_a_file(file):
     data = []
@@ -69,7 +70,12 @@ class Application(object):
             elif value[0] == "!":
                 command = value.split()
                 if command[0] == "!help":
-                    self.addMessage("The assistant","there's actualy no command")
+                    self.addMessage("The assistant","here's the commands")
+                    self.addMessage("!help","you know")
+                    self.addMessage("!rename [name]","rename you")
+                    self.addMessage("!createServer","create a local server on your computer")
+                    self.addMessage("!connectToLobby [ip]","connect to the server")
+                    self.addMessage("!disconnect","disconnect from the server")
                 elif command[0]== "!rename":
                     if len(command)==2 and command[1]!="The assistant":
                         MyAccount.account.name = command[1]
@@ -105,6 +111,29 @@ class Application(object):
                     self.clientInstance.left()
                     self.clientInstance = None
                     self.addMessage("The assistant","server left")
+                elif command[0] == "!disconnect" and len(command)==1 and self.clientInstance == None:
+                    self.addMessage("The assistant","you arent connect to any server")
+                elif command[0] == "!createServer" and len(command)==1 and self.clientInstance == None:
+                    self.addMessage("The assistant","creating server ...")
+                    s = Server.Server()
+                    self.addMessage("The assistant","server created")
+                    
+                    self.clientInstance = Client(port=5050,ip="localhost")
+                    self.addMessage("The assistant","connection with the lobby")
+                    self.clientInstance.send("client trying to connect using the tchatApp, send the valid code")
+
+                    msg = self.clientInstance.waitingForMessage()
+
+                    if msg == "30939211271":
+                        print("Server valid")
+                        self.addMessage("The assistant","connection succesfull")
+                        self.clientInstance.send(MyAccount.account.name)
+                        self.clientInstance.send("The assistant|"+MyAccount.account.name+" join lobby.")
+                        thread = threading.Thread(target=self.loop_message,args = (self.clientInstance,))
+                        thread.start()
+                    else:
+                        self.clientInstance = None
+                        print("Server invalid, disconnect")
 
 class AccountCreator(object):
     def __init__(self):
