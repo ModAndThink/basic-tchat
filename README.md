@@ -4,6 +4,4 @@
 easly and rapidly.
 
 ## TODO
-* Finsih the help command
-* Add the server script
 * Give an executable version of the core and server
