@@ -34,8 +34,6 @@ easly and rapidly.
   Generally to create a server in public or local you need to use command !createServer. If you want to use it in local you just need to open cmd, use command ipconfig and you would have you ipv4 address in local. When a client would want to connect to your server, he would use the command !connectToLobby (ipv4 of the server).
   ## Public server
   
-  ### ATTENTION : HOSTING A SERVER IN PUBLIC ON YOUR PC IS DANGEROUSE AND YOU CAN BE VICTIM OF HACKERS. USE A HOSTING SERVICE.
-  
   To host a server in public you need first the public ip of the machine you working on it, next you need to open the port 5000. When it's done, the client would use the command !connectToLobby (public ip)
   
 
